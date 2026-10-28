@@ -1,73 +1,105 @@
-# [서비스 이름]
+# 게임 공략 게시판
 
-웹서비스설계 JWT 게시판 과제입니다. 이 파일을 제출 저장소의 루트 `README.md`로 복사한 뒤 대괄호 안내를 실제 내용으로 바꾸세요. 선택하지 않은 기술의 설명과 작성 안내는 삭제합니다.
+웹서비스설계 JWT 게시판 과제입니다. 누구나 게임 공략을 읽을 수 있고, 로그인한 사용자만 공략을 쓰며, 자신이 쓴 공략만 수정·삭제할 수 있는 웹서비스입니다.
 
 ## 작성자와 서비스 소개
 
-- 학번 / 이름: [작성]
-- 서비스 목적과 대상 사용자: [3~5문장]
-- 선택한 기술: [React 또는 Vue] + [Express 또는 FastAPI 또는 Spring Boot]
-- 주요 기능: [작성]
+- 학번 / 이름: 202219903 / 박예찬
+- 서비스 목적과 대상 사용자: 게임을 하다 막힌 플레이어가 보스 공략, 아이템 위치, 빌드 추천 같은 정보를 찾아보고 공유하는 게시판입니다. 공략은 로그인 없이 누구나 읽을 수 있어 검색하듯 바로 확인할 수 있습니다. 공략 작성은 로그인한 사용자만 할 수 있고, 다른 사람이 내 공략을 고치거나 지울 수 없도록 작성자 본인만 수정·삭제할 수 있습니다.
+- 선택한 기술: Vue + Express
+- 주요 기능: 공략 목록·상세 공개 조회, JWT 로그인과 로그인 사용자 표시, 내 정보 조회, 로그인 사용자 공략 작성, 작성자 본인만 수정·삭제, 토큰 없음·변조·만료 처리, 로그아웃, SQLite 파일 저장
 
 ## 보고서와 테스트 증거
 
 - [구현 보고서 PDF](docs/report.pdf)
-- [테스트 증거](docs/evidence/)
-
-보고서 PDF를 위 경로에 추가하세요. 테스트 증거를 보고서에만 포함한 경우 별도 폴더 링크를 삭제하고 해당 보고서 페이지를 안내하세요. 경로를 바꿨다면 링크도 수정합니다. GitHub에서 링크가 실제로 열리는지 확인하세요.
+- [테스트 기록 (T01~T17 결과표)](docs/evidence/테스트기록.md)
+- [테스트 증거 캡처](docs/evidence/)
+- [AI 활용 기록](docs/AI_활용기록.md)
 
 ## 프로젝트 구조
+
+제공 템플릿과 같은 폴더 이름을 사용했고, 선택하지 않은 템플릿(frontend-react, backend-fastapi, backend-spring)은 제외했습니다.
 
 ```text
 .
 ├── README.md
 ├── .gitignore
-├── frontend/          # 선택한 프론트 소스와 의존성 파일
-├── backend/           # 선택한 백엔드 소스와 의존성 파일
+├── backend-express/          # Express 백엔드
+│   ├── .env.example          # 환경설정 예시 (실제 .env는 커밋하지 않음)
+│   ├── package.json, package-lock.json
+│   └── src/
+│       ├── app.js            # 라우트, 입력 검사, 오류 응답
+│       ├── auth.js           # JWT 발급·검증, 작성자 권한 검사 (구현)
+│       ├── store.js          # SQLite 저장소
+│       ├── users.js          # 테스트 계정, 비밀번호 검증
+│       └── errors.js
+├── frontend-vue/             # Vue 프론트
+│   ├── package.json, package-lock.json, vite.config.js
+│   └── src/
+│       ├── api.js            # 로그인, 토큰 보관·전송, 응답 처리 (구현)
+│       ├── App.vue           # 화면 (구현)
+│       └── style.css
+├── tools/check_api.py        # 제공 자동 API 검사 도구
 └── docs/
-    ├── report.pdf
-    └── evidence/      # 별도 증거가 있을 때
+    ├── report.pdf            # 구현 보고서
+    ├── AI_활용기록.md
+    ├── evidence/             # 테스트 캡처와 테스트기록.md
+    └── 01~07                 # 제공된 과제 문서
 ```
-
-[실제 제출 폴더 이름에 맞게 수정]
 
 ## 실행 환경
 
 | 항목 | 사용 버전 |
 |---|---|
-| 운영체제 | [작성] |
-| 프론트 런타임 Node.js | [작성] |
-| 백엔드 런타임 | [Node.js / Python / JDK와 버전] |
-| 프레임워크 | [실제 사용 버전] |
-| 데이터 저장 | SQLite (필수) |
+| 운영체제 | macOS 15.6.1 |
+| 프론트 런타임 Node.js | v24.15.0 (요구: 20.19 이상) |
+| 백엔드 런타임 | Node.js v24.15.0 |
+| 프레임워크 | Vue 3.5.43, Vite 8.3.4 / Express 5.3.0, jsonwebtoken 9.0.3, dotenv 18.0.7 |
+| 데이터 저장 | SQLite 파일 (sql.js 1.14.2) |
+| 검사 도구 | Python 3.10.2 (추가 패키지 없음) |
 
 ## 설치와 실행
 
-본인 PC와 교수자 PC에서 로컬로 재현할 수 있도록 실제 명령을 적으세요. 설치·빌드·실행·종료를 구분하고 각 명령을 실행할 폴더를 명시합니다. GitHub는 코드와 문서 제출용이며 외부 배포 URL은 필요하지 않습니다.
+터미널 2개를 사용합니다. 터미널 A는 백엔드, 터미널 B는 프론트입니다. 아래 명령은 저장소 루트에서 시작합니다.
 
 ### 1 저장소 복제
 
 ```sh
-git clone [실제 저장소 URL]
-cd [저장소 폴더]
+git clone https://github.com/[GitHub 아이디]/game-guide-board.git
+cd game-guide-board
 ```
 
-### 2 백엔드 준비와 실행
-
-[선택한 백엔드의 설치·환경설정·실행 명령 작성]
-
-- 환경설정 예시 파일: [경로]
-- JWT_SECRET 설정 방법: [새 키 생성과 서버 주입 방법. 실제 키는 기록하지 않음]
-- TOKEN_TTL: [기본값과 만료 테스트용 변경 방법]
-- 백엔드 주소: [예: http://127.0.0.1:8000]
-- 정상 실행 확인 방법: [health 요청 등]
-
-### 3 프론트 빌드와 로컬 실행
-
-백엔드를 켜 두고 새 터미널에서 실행합니다. 아래 폴더명과 명령을 실제 제출 내용에 맞게 수정하세요.
+### 2 백엔드 준비와 실행 (터미널 A)
 
 ```sh
-cd frontend
+cd backend-express
+npm ci
+cp .env.example .env          # Windows PowerShell: Copy-Item .env.example .env
+```
+
+`.env`의 `JWT_SECRET`을 직접 생성한 키로 바꿉니다. 아래 명령은 32바이트 난수를 64자리 16진수로 출력합니다. 출력값을 `.env`의 `JWT_SECRET=` 뒤에 붙여 넣고, 이 값은 어디에도 공유하거나 커밋하지 않습니다.
+
+```sh
+node -e "console.log(require('node:crypto').randomBytes(32).toString('hex'))"
+```
+
+```sh
+npm start
+```
+
+- 환경설정 예시 파일: `backend-express/.env.example`
+- JWT_SECRET: 64자리 16진수만 허용합니다. 비어 있거나, 예시 값(`REPLACE_WITH_RANDOM_64_HEX_CHARACTERS`) 그대로이거나, 형식이 틀리면 서버가 시작하지 않고 오류를 출력합니다.
+- JWT_ISSUER / JWT_AUDIENCE: `webservice-class` / `board-api` (예시 파일 값 그대로 사용)
+- TOKEN_TTL: 기본 90초. 만료 테스트 시 macOS/Linux `TOKEN_TTL=3 npm start`, Windows PowerShell `$env:TOKEN_TTL="3"; npm start`
+- 백엔드 주소: http://127.0.0.1:8000
+- 정상 실행 확인: 터미널에 `게임 공략 게시판 API http://127.0.0.1:8000`이 출력되고, http://127.0.0.1:8000/api/health 가 `{"status":"ok","stack":"express"}`를 반환합니다.
+
+### 3 프론트 빌드와 로컬 실행 (터미널 B)
+
+백엔드를 켜 둔 상태에서 새 터미널을 저장소 루트에서 엽니다.
+
+```sh
+cd frontend-vue
 npm ci
 npm run build
 npm run preview
@@ -75,68 +107,76 @@ npm run preview
 
 - 최종 확인 주소: http://127.0.0.1:4173
 - 개발 중 실행: `npm run dev`, http://127.0.0.1:5173
-- API 연결 방식과 포트 변경 방법: [4173 → /api 프록시 → 8000 백엔드 연결 설명]
+- API 연결 방식: 브라우저는 같은 주소의 `/api`로 요청하고, Vite preview(4173)·dev(5173) 서버가 `vite.config.js`의 프록시 설정으로 `http://127.0.0.1:8000`의 백엔드에 전달합니다. 백엔드 포트를 바꾸면 `vite.config.js`의 두 `proxy` 주소도 함께 바꿉니다.
 - 종료: 프론트와 백엔드를 실행한 각 터미널에서 Ctrl+C
-- 코드 변경 후 재실행: [프론트 재빌드와 백엔드 재시작 방법]
+- 코드 변경 후 재실행: 프론트는 `npm run build` 후 `npm run preview`를 다시 실행하고, 백엔드는 Ctrl+C 후 `npm start`로 재시작합니다.
 
 ### 4 테스트 계정과 DB
 
 | 사용자 | 이메일 | 실습용 비밀번호 |
 |---|---|---|
-| Alice | alice@class.test | Classroom!2026 |
-| Bob | bob@class.test | Classroom!2026 |
+| Alice (id 1) | alice@class.test | Classroom!2026 |
+| Bob (id 2) | bob@class.test | Classroom!2026 |
 
-- SQLite 파일 위치와 자동 생성 방식: [기본 data/board.sqlite / 변경 시 실제 경로]
-- DB 초기화 방법: [서버 종료 후 삭제할 실습 DB 경로 등]
-- 서버 재시작 후 데이터 유지 확인 결과: [작성]
+- SQLite 파일 위치: `backend-express/data/board.sqlite`. `backend-express` 폴더에서 `npm start`를 실행하면 폴더와 테이블이 자동으로 생성됩니다. DB 파일은 커밋하지 않으므로 처음 실행하면 글이 없는 상태로 시작합니다.
+- DB 초기화: 백엔드를 Ctrl+C로 종료한 뒤 `backend-express/data/board.sqlite`를 삭제하고 다시 `npm start`합니다. 저장된 글이 모두 지워집니다.
+- 서버 재시작 후 데이터 유지: 서버를 Ctrl+C로 종료하고 재시작한 뒤에도 글의 id·제목·내용·작성자·작성 시각이 그대로 유지되는 것을 확인했습니다 (T15).
 
-위 계정은 과제 전용 테스트 계정입니다. 실제 서비스 계정 정보나 서버 비밀 키를 기록하지 않습니다.
+위 계정은 과제 전용 테스트 계정입니다. 실제 서비스 계정 정보나 서버 비밀 키는 기록하지 않았습니다.
 
 ## 구현 완료 범위
 
 | 기능 | 완료 여부 | 주요 파일 또는 함수 |
 |---|---|---|
-| 공개 목록과 상세 | [완료/부분/미완료] | [작성] |
-| 로그인과 JWT 발급 | [작성] | [작성] |
-| JWT 검증과 내 정보 조회 | [작성] | [작성] |
-| 글 작성과 작성자 저장 | [작성] | [작성] |
-| 본인 글 수정·삭제 | [작성] | [작성] |
-| 토큰 만료와 로그아웃 | [작성] | [작성] |
-| 입력 오류와 권한 오류 처리 | [작성] | [작성] |
+| 공개 목록과 상세 | 완료 | `backend-express/src/app.js` GET 라우트, `frontend-vue/src/App.vue` (제공 코드 유지) |
+| 로그인과 JWT 발급 | 완료 | `backend-express/src/auth.js` `issueToken`, `frontend-vue/src/api.js` `login` |
+| JWT 검증과 내 정보 조회 | 완료 | `backend-express/src/auth.js` `currentUserId`, GET /api/me |
+| 글 작성과 작성자 저장 | 완료 | POST /api/posts, 작성자는 `currentUserId`가 검증한 ID로 저장 |
+| 본인 글 수정·삭제 | 완료 | `backend-express/src/auth.js` `assertOwner`, `frontend-vue/src/api.js` `canEdit` |
+| 토큰 만료와 로그아웃 | 완료 | `auth.js` TOKEN_EXPIRED 처리, `api.js` `request`의 401 세션 해제, `App.vue` `logout` |
+| 입력 오류와 권한 오류 처리 | 완료 | `app.js` `fields`·`postId`(제공 코드), `api.js` 응답 code별 안내, `App.vue` `run`의 404 처리 |
 
-알려진 문제와 미완성 기능: [없으면 없음]
+알려진 문제와 미완성 기능: 없음. 로그인 상태는 브라우저 메모리에만 보관하므로 새로고침하면 로그아웃되는 것이 의도된 동작입니다. 로그아웃은 이 탭의 토큰을 지우는 기능이며, 이미 발급된 토큰을 서버에서 무효화하지는 않습니다(만료 시각까지 유효).
 
 ## 테스트 방법과 결과 요약
 
-- 실행한 검사 명령과 실행 위치: [작성]
-- Alice/Bob 권한 구분 확인 결과: [작성]
-- HTTP 상태와 오류 code 확인: [200·201·204 / 400·401·403·404의 실제 결과, 보고서 링크]
-- 응답 헤더와 본문 확인: [201 Location / 보호 API 401 WWW-Authenticate / 204 빈 본문]
-- 토큰 없음·변조·만료 확인 결과: [작성]
-- 전체 T01~T17 결과와 증거: [보고서의 해당 절 또는 상대 링크]
-
-직접 수행한 결과만 기록합니다. 자동 검사 도구를 저장소에 포함하지 않았다면 존재하지 않는 실행 경로를 안내하지 말고 재현 가능한 수동 절차를 적으세요.
+- 수동 테스트: 빌드본(http://127.0.0.1:4173)에서 Chrome 개발자 도구 Network와, 저장소 루트의 터미널에서 curl로 T01~T17을 직접 수행했습니다. 17개 모두 PASS입니다.
+- 자동 검사 (저장소 루트, 백엔드 실행 중): `python3 tools/check_api.py --mode final` → 40개 PASS. `TOKEN_TTL=3 npm start`로 재시작 후 `python3 tools/check_api.py --mode final --expiry` → 48개 PASS.
+- Alice/Bob 권한 구분: Bob의 정상 토큰으로 Alice 글을 curl로 직접 수정·삭제하면 403 FORBIDDEN이고 재조회 시 원문이 그대로입니다. Bob 화면에서는 Alice 글의 수정·삭제 버튼이 보이지 않습니다. Bob 본인 글은 작성 201, 수정 200, 삭제 204입니다.
+- HTTP 상태와 오류 code: 성공 200·201·204, 실패 400 BAD_INPUT, 401 INVALID_CREDENTIALS·TOKEN_REQUIRED·INVALID_TOKEN·TOKEN_EXPIRED, 403 FORBIDDEN, 404 NOT_FOUND를 각각 확인했습니다.
+- 응답 헤더와 본문: 등록 201에 `Location: /api/posts/{id}`, 보호 API 401에 `WWW-Authenticate: Bearer`, 삭제 204는 응답 본문 없음을 확인했습니다.
+- 토큰 없음·변조·만료: 토큰 없음 401 TOKEN_REQUIRED, 서명 첫 글자를 바꾼 토큰 401 INVALID_TOKEN, TTL 3초 토큰을 5초 뒤 사용 시 401 TOKEN_EXPIRED이며, /me와 POST·PUT·DELETE 모두에서 확인했습니다. 화면에서는 만료 안내 후 자동으로 로그아웃 상태가 됩니다.
+- 판단 순서: 토큰 없이 없는 글 수정 401, 정상 토큰으로 없는 글 수정 404, Bob이 Alice 글에 공백 제목 403, Alice가 자기 글에 공백 제목 400을 확인했습니다.
+- 전체 결과와 증거: [테스트기록.md](docs/evidence/테스트기록.md), 보고서 4장
 
 ## 핵심 구현 설명
 
-[로그인 → 토큰 보관·전송 → 서버 검증 → 작성자 권한 검사의 흐름을 요약하고 주요 파일을 연결합니다. 상세 코드 설명은 보고서에 작성합니다.]
+1. **로그인과 발급**: 프론트 `api.js`의 `login`이 이메일·비밀번호를 POST /api/auth/login으로 보냅니다. 백엔드는 제공된 `verifyCredentials`로 계정을 확인한 뒤 `auth.js`의 `issueToken`이 HS256으로 `sub`(사용자 ID 문자열), `iss`, `aud`, `exp`를 담은 JWT를 발급합니다.
+2. **토큰 보관과 전송**: 토큰은 `api.js` 모듈 변수(브라우저 메모리)에만 저장하고 localStorage는 사용하지 않습니다. `authorizationHeaders`가 토큰이 있을 때만 `Authorization: Bearer <JWT>`를 붙입니다.
+3. **서버 검증**: 보호 API는 `auth.js`의 `currentUserId`를 먼저 호출합니다. Bearer 형식 확인 → `jwt.verify`로 알고리즘(HS256 고정)·서명·만료·iss·aud 검증 → exp·sub 형식 확인 → 실제 계정 존재 확인 순서로 검사하고, 검증된 사용자 ID만 돌려줍니다.
+4. **작성자 권한**: 수정·삭제 시 `assertOwner`가 검증된 사용자 ID와 DB에 저장된 글의 `authorId`를 비교해 다르면 403을 반환합니다. 글 작성 시 작성자는 요청 본문이 아니라 검증된 토큰의 사용자로 정해지며, 본문에 `authorId`·`userId`를 넣으면 400으로 거부됩니다. 프론트 `canEdit`은 버튼 표시용이고 실제 권한 검사는 서버가 합니다.
+
+상세 설명은 보고서 3장에 있습니다.
 
 ## AI 활용 요약과 참고 자료
 
-- AI 사용 여부: [사용 / 미사용]
-- 도구와 사용 목적: [작성]
-- 반영 위치와 직접 수정·검증한 내용: [요약]
-- 상세 활용 기록: [보고서 해당 절]
-- 참고한 수업 자료·외부 코드·공식 문서: [자료 제목, URL, 사용 위치]
-
-AI 미사용이면 미사용을 명시하고 참고 자료만 기록하세요. 사용량 자체로 가감점하지 않으며 기록과 검증의 명확성을 평가합니다.
+- AI 사용 여부: 사용
+- 도구: Claude Code (VS Code 확장, 모델 Claude Opus 5.5)
+- 사용 목적: 과제 문서 요약과 작업 순서 계획, 백엔드 `auth.js`와 프론트 `api.js`·`App.vue` 구현 코드 생성, 구현 검증(자동 API 검사·브라우저 자동 점검), 수동 테스트 절차와 curl 명령 안내, README·보고서 초안 작성
+- 직접 수행한 내용: 기술 조합(Vue + Express)과 주제 선택, 제출 폴더 구조 결정, 생성된 코드 검토, T01~T17 수동 테스트 전체 수행과 증거 캡처, 테스트 기록 확인, 최종 제출
+- 검증: 모든 필수 동작을 직접 수행한 수동 테스트(T01~T17)와 제공 자동 검사(final 40개, expiry 48개)로 확인했습니다.
+- 상세 활용 기록: [docs/AI_활용기록.md](docs/AI_활용기록.md), 보고서 AI 활용 절
+- 참고 자료
+  - 제공 시작 템플릿과 과제 문서(docs/01~07): 프로젝트 구조, 라우트·저장소·계정 코드, API 명세
+  - jsonwebtoken 공식 문서 https://github.com/auth0/node-jsonwebtoken : `jwt.sign`·`jwt.verify` 옵션 (`backend-express/src/auth.js`)
+  - Vite 공식 문서 https://vite.dev/guide/ : 빌드·preview·프록시 실행
 
 ## 제출 확인
 
-- [ ] README의 안내 문구를 실제 내용으로 교체했다.
+- [x] README의 안내 문구를 실제 내용으로 교체했다.
 - [ ] 새 폴더에 clone하여 README만으로 설치·환경설정·빌드·로컬 실행했다.
-- [ ] 4173번 빌드 화면에서 API 연결과 전체 필수 기능을 확인했다.
+- [x] 4173번 빌드 화면에서 API 연결과 전체 필수 기능을 확인했다.
 - [ ] GitHub에서 보고서와 증거 링크가 열린다.
 - [ ] 교수자가 저장소를 열람·복제할 수 있다.
-- [ ] 비밀 키·실제 토큰·DB·node_modules·.venv·target을 커밋하지 않았다.
+- [x] 비밀 키·실제 토큰·DB·node_modules를 커밋하지 않았다.
 - [ ] 최종 push 후 저장소 URL과 제출 기준 커밋 SHA를 LMS에 제출했다.
