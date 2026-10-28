@@ -7,3 +7,7 @@ target/
 data/
 .env
 .DS_Store
+
+# 보고서 편집용 Word 원본 (제출은 PDF)
+docs/report.docx
+~$*

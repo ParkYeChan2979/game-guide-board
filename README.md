@@ -11,7 +11,7 @@
 
 ## 보고서와 테스트 증거
 
-- [구현 보고서 PDF](docs/report.pdf)
+- [최종 보고서 PDF](docs/202219903_박예찬_최종보고서.pdf)
 - [테스트 기록 (T01~T17 결과표)](docs/evidence/테스트기록.md)
 - [테스트 증거 캡처](docs/evidence/)
 - [AI 활용 기록](docs/AI_활용기록.md)
@@ -41,7 +41,7 @@
 │       └── style.css
 ├── tools/check_api.py        # 제공 자동 API 검사 도구
 └── docs/
-    ├── report.pdf            # 구현 보고서
+    ├── 202219903_박예찬_최종보고서.pdf  # 최종 보고서
     ├── AI_활용기록.md
     ├── evidence/             # 테스트 캡처와 테스트기록.md
     └── 01~07                 # 제공된 과제 문서
@@ -65,7 +65,7 @@
 ### 1 저장소 복제
 
 ```sh
-git clone https://github.com/[GitHub 아이디]/game-guide-board.git
+git clone https://github.com/ParkYeChan2979/game-guide-board.git
 cd game-guide-board
 ```
 
