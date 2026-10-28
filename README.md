@@ -181,4 +181,4 @@ npm run preview
 - [x] GitHub에서 보고서와 증거 링크가 열린다.
 - [x] 교수자가 저장소를 열람·복제할 수 있다. (공개 저장소)
 - [x] 비밀 키·실제 토큰·DB·node_modules를 커밋하지 않았다.
-- [ ] 최종 push 후 저장소 URL과 제출 기준 커밋 SHA를 LMS에 제출했다.
+- [x] 최종 push 후 저장소 URL과 제출 기준 커밋 SHA를 LMS에 제출했다.
