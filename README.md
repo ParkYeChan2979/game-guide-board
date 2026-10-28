@@ -146,6 +146,8 @@ npm run preview
 - HTTP 상태와 오류 code: 성공 200·201·204, 실패 400 BAD_INPUT, 401 INVALID_CREDENTIALS·TOKEN_REQUIRED·INVALID_TOKEN·TOKEN_EXPIRED, 403 FORBIDDEN, 404 NOT_FOUND를 각각 확인했습니다.
 - 응답 헤더와 본문: 등록 201에 `Location: /api/posts/{id}`, 보호 API 401에 `WWW-Authenticate: Bearer`, 삭제 204는 응답 본문 없음을 확인했습니다.
 - 토큰 없음·변조·만료: 토큰 없음 401 TOKEN_REQUIRED, 서명 첫 글자를 바꾼 토큰 401 INVALID_TOKEN, TTL 3초 토큰을 5초 뒤 사용 시 401 TOKEN_EXPIRED이며, /me와 POST·PUT·DELETE 모두에서 확인했습니다. 화면에서는 만료 안내 후 자동으로 로그아웃 상태가 됩니다.
+- Bearer 형식 오류: `Authorization: Basic abc`, `Bearer`(토큰 없음), 접두어 없는 토큰 모두 401 TOKEN_REQUIRED를 확인했습니다.
+- 새 폴더 재현: GitHub에서 새 폴더로 clone한 뒤 이 README의 절차만으로 설치·키 설정·빌드·실행했고, 빈 DB에서 자동 시작해 글 등록까지 동작했습니다.
 - 판단 순서: 토큰 없이 없는 글 수정 401, 정상 토큰으로 없는 글 수정 404, Bob이 Alice 글에 공백 제목 403, Alice가 자기 글에 공백 제목 400을 확인했습니다.
 - 전체 결과와 증거: [테스트기록.md](docs/evidence/테스트기록.md), 보고서 4장
 
@@ -174,9 +176,9 @@ npm run preview
 ## 제출 확인
 
 - [x] README의 안내 문구를 실제 내용으로 교체했다.
-- [ ] 새 폴더에 clone하여 README만으로 설치·환경설정·빌드·로컬 실행했다.
+- [x] 새 폴더에 clone하여 README만으로 설치·환경설정·빌드·로컬 실행했다.
 - [x] 4173번 빌드 화면에서 API 연결과 전체 필수 기능을 확인했다.
-- [ ] GitHub에서 보고서와 증거 링크가 열린다.
-- [ ] 교수자가 저장소를 열람·복제할 수 있다.
+- [x] GitHub에서 보고서와 증거 링크가 열린다.
+- [x] 교수자가 저장소를 열람·복제할 수 있다. (공개 저장소)
 - [x] 비밀 키·실제 토큰·DB·node_modules를 커밋하지 않았다.
 - [ ] 최종 push 후 저장소 URL과 제출 기준 커밋 SHA를 LMS에 제출했다.
